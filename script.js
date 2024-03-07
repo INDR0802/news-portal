@@ -16,9 +16,54 @@ let displayCategory = (category) => {
     category.forEach(element => {
         let buttonDiv = document.createElement('div')
         buttonDiv.innerHTML = `
-        <button class="btn btn-ghost hover:text-purple-600" onclick = 'displayNews(${element.category_id})'>${element.category_name}</button>
+        <button class="btn btn-ghost hover:text-purple-600" onclick = 'loadNews(${element.category_id})'>${element.category_name}</button>
         `
         container.appendChild(buttonDiv)
+    });
+}
+
+let newsContainer = document.getElementById('news-container')
+
+let displayNews = (news) => {
+
+    newsContainer.innerHTML = ""
+    console.log(news)
+
+    news.forEach(element => {
+        let newsCard = document.createElement('div')
+        newsCard.innerHTML = `
+        <div class="flex gap-5 bg-slate-200 p-5 rounded-xl m-5 items-center">
+        <img src="${element.thumbnail_url}" alt="" class="h-full w-[200px]">
+        <div class="flex flex-col gap-4">
+            <h1 class="font-extrabold">${element.title}</h1>
+            <p>${element.details}</p>
+            <div class="flex items-center justify-between">
+                <div class="flex gap-2 items-center">
+                    <img src="https://dummyimage.com/40x40/000/fff" alt="" class="rounded-full h-[40px] w-[40px]">
+                    <div>
+                        <h1>${element.author.name}</h1>
+                        <h1>${element.author.published_date}</h1>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fa-regular fa-eye"></i>
+                    <h1>${element.total_view}</h1>
+                </div>
+                <div class="rating">
+                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
+                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+        `
+    newsContainer.appendChild(newsCard)
+
     });
 }
 
@@ -26,11 +71,8 @@ let loadNews = async (category_id) => {
     let response = await fetch(`https://openapi.programming-hero.com/api/news/category/0${category_id}`)
 
     let news = await response.json()
-
-    console.log(news)
+    displayNews(news.data)
 }
 
-let displayNews = (category_id) => {
-    loadNews(category_id)
-}
+
 loadCatagory()
