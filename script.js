@@ -74,5 +74,5 @@ let loadNews = async (category_id) => {
     displayNews(news.data)
 }
 
-
+loadNews(8)
 loadCatagory()
