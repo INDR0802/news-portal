@@ -23,8 +23,12 @@ let displayCategory = (category) => {
 }
 
 let newsContainer = document.getElementById('news-container')
+let searchResult = document.getElementById('search')
 
 let displayNews = (news) => {
+    searchResult.innerHTML = `
+    <h1>${news.length} items found for This category </h1>
+    `
 
     newsContainer.innerHTML = ""
     console.log(news)
@@ -36,7 +40,7 @@ let displayNews = (news) => {
         <img src="${element.thumbnail_url}" alt="" class="h-full w-[200px]">
         <div class="flex flex-col gap-4">
             <h1 class="font-extrabold">${element.title}</h1>
-            <p>${element.details}</p>
+            <p>${element.details.slice(0,600)}</p>
             <div class="flex items-center justify-between">
                 <div class="flex gap-2 items-center">
                     <img src="https://dummyimage.com/40x40/000/fff" alt="" class="rounded-full h-[40px] w-[40px]">
@@ -72,6 +76,7 @@ let loadNews = async (category_id) => {
 
     let news = await response.json()
     displayNews(news.data)
+    console.log(news.data.length)
 }
 
 loadNews(8)
